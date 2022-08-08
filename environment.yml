@@ -2,6 +2,7 @@ name: python-learn2trust
 channels:
   - pytorch
   - conda-forge
+  - plotly
   - defaults
 dependencies:
   - _libgcc_mutex=0.1=main
@@ -154,6 +155,8 @@ dependencies:
   - pickleshare=0.7.5=py_1003
   - pillow=7.2.0=py39h6f3857e_2
   - pip=21.2.4=py39h06a4308_0
+  - plotly=5.2.1=py_0
+  - plotly-orca=3.4.2=0
   - pooch=1.6.0=pyhd8ed1ab_0
   - prometheus_client=0.13.1=pyhd8ed1ab_0
   - pthread-stubs=0.4=h36c2ea0_1001
