@@ -6,9 +6,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 from skimage.util import random_noise
 import pandas as pd
-import SessionState
-from streamlit.script_runner import RerunException
-from streamlit.script_request_queue import RerunData
 import random
 import torchvision.transforms as T
 from PIL import Image, ImageDraw
@@ -587,7 +584,11 @@ def metrics(session_state):
 
 
 ##############
-session_state = SessionState.get(button_id="", slider_value=0)
+session_state = st.session_state
+if "button_id" not in session_state:
+    session_state["button_id"] = ""
+if "slider_value" not in session_state:
+    session_state["slider_value"] = 0
 
 st.set_page_config(
     page_title="KI Campus: Learn2Trust - Lektion 3", page_icon=":pencil2:", layout="wide"
