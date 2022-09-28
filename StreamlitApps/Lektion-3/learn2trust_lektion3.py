@@ -97,7 +97,7 @@ def intro(session_state):
 ###############
 def annotations(session_state):
     st.write("""
-    ## 3. Annotationen
+    ## 2. Annotationen
     """)
 
     st.write("""Annotationen bei Entwicklung einer KI für die medizinische Bildanalyse sind **Zuordnungen von Informationen zu einem Bild**. Für eine Klassifikationsaufgabe muss der Bilddatensatz gelabelt werden. Für eine Segmentierungsaufgabe wird das Bild in zusammenhängende Bildbereiche eingeteilt, um z.B. anatomisch zusammenhängende oder diagnostisch oder therapeutisch relevante Bildbereiche abzugrenzen. """)
@@ -154,7 +154,7 @@ def annotations(session_state):
 #################
 def preprocessing(session_state):
     st.write("""
-    ## 4. Vorverarbeitung
+    ## 3. Vorverarbeitung
     """)
     st.write("""Im Rahmen der Vorverarbeitung werden die Bilder bezüglich ihrer Bildbereiche, Größe, Auflösung und Wertebereich **vereinheitlicht.**""")
 
@@ -269,7 +269,7 @@ def preprocessing(session_state):
 
 def augmentation(session_state):
     st.write("""
-    ## 5. Augmentierung
+    ## 4. Augmentierung
     """)
     st.write("""Augmentierung stellt eine Erweiterung des Datensatzes durch Hinzufügen von zusätzlichen Daten dar. Das Ziel dabei ist, dass der Datensatz größer und vielseitiger wird. Die Daten, die bei der Augmentierung entstehen, können modifizierte
     Kopien vorhandener Daten oder synthetische Daten sein.""")
@@ -424,7 +424,7 @@ def augmentation(session_state):
 
 def metrics(session_state):
     st.write("""
-    ## 6. Evaluationsmetriken
+    ## 5. Evaluationsmetriken
     """)
     st.write("""
     ### Segmentierung""")
