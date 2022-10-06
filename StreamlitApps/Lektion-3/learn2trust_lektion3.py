@@ -6,9 +6,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 from skimage.util import random_noise
 import pandas as pd
-import SessionState
-from streamlit.script_runner import RerunException
-from streamlit.script_request_queue import RerunData
 import random
 import torchvision.transforms as T
 from PIL import Image, ImageDraw
@@ -20,15 +17,15 @@ import streamlit as st
 # Caching
 @st.cache(suppress_st_warning=True)
 def load_data():
-    Thorax_img = Image.open('KICampus-Learn2Trust/Lektion-3/l2t_data/person1_bacteria_2.jpeg')
+    Thorax_img = Image.open('StreamlitApps/Lektion-3/l2t_data/person1_bacteria_2.jpeg')
     Thorax_img = T.Resize(size=512)(Thorax_img)
     Thorax_img = T.CenterCrop(size=[512, 512])(Thorax_img)
 
-    Skin_img = Image.open('KICampus-Learn2Trust/Lektion-3/l2t_data/ISIC_0015719.jpg')
+    Skin_img = Image.open('StreamlitApps/Lektion-3/l2t_data/ISIC_0015719.jpg')
     Skin_img = T.Resize(size=512)(Skin_img)
     Skin_img = T.CenterCrop(size=[512, 512])(Skin_img)
 
-    Brain_img = Image.open('KICampus-Learn2Trust/Lektion-3/l2t_data/OASIS0001.png')
+    Brain_img = Image.open('StreamlitApps/Lektion-3/l2t_data/OASIS0001.png')
     Brain_img = T.Resize(size=512)(Brain_img)
     Brain_img = T.CenterCrop(size=[512, 512])(Brain_img)
 
@@ -74,7 +71,7 @@ def intro(session_state):
         Bilddatensätzen genauer erklärt und demonstriert. Außerdem wird in dieser Lektion gezeigt, wie evaluiert werden kann, wie gut eine KI in der Testphase Vorhersagen für Daten des Testdatensatzes trifft.""")
         
     with col2:
-        st.image('KICampus-Learn2Trust/Lektion-3/l2t_images/datenpipeline.png', caption='Pipeline von der Datenerfassung bis zum Training des KI-Modells.')
+        st.image('StreamlitApps/Lektion-3/l2t_images/datenpipeline.png', caption='Pipeline von der Datenerfassung bis zum Training des KI-Modells.')
 
     st.markdown("---")
     
@@ -100,7 +97,7 @@ def intro(session_state):
 ###############
 def annotations(session_state):
     st.write("""
-    ## 3. Annotationen
+    ## 2. Annotationen
     """)
 
     st.write("""Annotationen bei Entwicklung einer KI für die medizinische Bildanalyse sind **Zuordnungen von Informationen zu einem Bild**. Für eine Klassifikationsaufgabe muss der Bilddatensatz gelabelt werden. Für eine Segmentierungsaufgabe wird das Bild in zusammenhängende Bildbereiche eingeteilt, um z.B. anatomisch zusammenhängende oder diagnostisch oder therapeutisch relevante Bildbereiche abzugrenzen. """)
@@ -113,12 +110,12 @@ def annotations(session_state):
 
     col1, col2, col3, col4, col5 = st.columns([2,2,0.5,2,2])
     with col1:
-        st.image('KICampus-Learn2Trust/Lektion-3/l2t_images/pneumonielabel.png')  # , caption='Label')
+        st.image('StreamlitApps/Lektion-3/l2t_images/pneumonielabel.png')  # , caption='Label')
     with col2:
         st.write("""**Label**: """)
         st.write(""" 'Pneumonie' """)
     with col4:
-        st.image('KICampus-Learn2Trust/Lektion-3/l2t_images/keinepneumonielabel.png')  # , caption='Label')
+        st.image('StreamlitApps/Lektion-3/l2t_images/keinepneumonielabel.png')  # , caption='Label')
     with col5:
         st.write("""**Label**: """)
         st.write(""" 'keine Pneumonie' """)
@@ -133,16 +130,16 @@ def annotations(session_state):
     col1, col2, col3, col4, col5 = st.columns([1, 2, 0.2, 2,1])
 
     with col2:
-        st.image('KICampus-Learn2Trust/Lektion-3/l2t_images/segmentierungsbeispiel.png')
+        st.image('StreamlitApps/Lektion-3/l2t_images/segmentierungsbeispiel.png')
     with col3:
         st.write('')
         st.write('')
         st.write('')
-        st.image('KICampus-Learn2Trust/Lektion-3/l2t_images/blau.png', width=25)
-        st.image('KICampus-Learn2Trust/Lektion-3/l2t_images/braun.png', width=25)
-        st.image('KICampus-Learn2Trust/Lektion-3/l2t_images/rosa.png', width=25)
-        st.image('KICampus-Learn2Trust/Lektion-3/l2t_images/rot.png', width=25)
-        st.image('KICampus-Learn2Trust/Lektion-3/l2t_images/gruen.png', width=25)
+        st.image('StreamlitApps/Lektion-3/l2t_images/blau.png', width=25)
+        st.image('StreamlitApps/Lektion-3/l2t_images/braun.png', width=25)
+        st.image('StreamlitApps/Lektion-3/l2t_images/rosa.png', width=25)
+        st.image('StreamlitApps/Lektion-3/l2t_images/rot.png', width=25)
+        st.image('StreamlitApps/Lektion-3/l2t_images/gruen.png', width=25)
     with col4:
         st.write("""**Label für semantische Segmentierung**: """)
         st.write('  rechter Lungenflügel')
@@ -157,7 +154,7 @@ def annotations(session_state):
 #################
 def preprocessing(session_state):
     st.write("""
-    ## 4. Vorverarbeitung
+    ## 3. Vorverarbeitung
     """)
     st.write("""Im Rahmen der Vorverarbeitung werden die Bilder bezüglich ihrer Bildbereiche, Größe, Auflösung und Wertebereich **vereinheitlicht.**""")
 
@@ -165,7 +162,7 @@ def preprocessing(session_state):
     with col1:
         st.write("")
     with col2:
-        st.image('KICampus-Learn2Trust/Lektion-3/l2t_images/Vorverarbeitung.png', caption='Vorverarbeitung')
+        st.image('StreamlitApps/Lektion-3/l2t_images/Vorverarbeitung.png', caption='Vorverarbeitung')
     with col3:
         st.write("")
 
@@ -259,7 +256,7 @@ def preprocessing(session_state):
             ax[1].axis('off')
             st.pyplot(fig)
         with col3:
-            st.image('KICampus-Learn2Trust/Lektion-3/l2t_images/Pfeil.png', caption='Vorverarbeitung')
+            st.image('StreamlitApps/Lektion-3/l2t_images/Pfeil.png', caption='Vorverarbeitung')
         with col4:
             fig3, ax3 = plt.subplots(2)
             ax3[0].imshow(cat_preproc_imgs, cmap='gray')
@@ -272,7 +269,7 @@ def preprocessing(session_state):
 
 def augmentation(session_state):
     st.write("""
-    ## 5. Augmentierung
+    ## 4. Augmentierung
     """)
     st.write("""Augmentierung stellt eine Erweiterung des Datensatzes durch Hinzufügen von zusätzlichen Daten dar. Das Ziel dabei ist, dass der Datensatz größer und vielseitiger wird. Die Daten, die bei der Augmentierung entstehen, können modifizierte
     Kopien vorhandener Daten oder synthetische Daten sein.""")
@@ -414,7 +411,7 @@ def augmentation(session_state):
             ax[1].axis('off')
             st.pyplot(fig)
         with col3:
-            st.image('KICampus-Learn2Trust/Lektion-3/l2t_images/Pfeil.png', caption='Augmentierung')
+            st.image('StreamlitApps/Lektion-3/l2t_images/Pfeil.png', caption='Augmentierung')
         with col4:
             fig3, ax3 = plt.subplots(2)
             ax3[0].imshow(cat_aug_imgs, cmap='gray')
@@ -427,7 +424,7 @@ def augmentation(session_state):
 
 def metrics(session_state):
     st.write("""
-    ## 6. Evaluationsmetriken
+    ## 5. Evaluationsmetriken
     """)
     st.write("""
     ### Segmentierung""")
@@ -437,7 +434,7 @@ def metrics(session_state):
     with col1:
         st.write("")
     with col2:
-        st.image('KICampus-Learn2Trust/Lektion-3/l2t_images/DiceKoeffizient.png')  # , caption='Vorverarbeitung')
+        st.image('StreamlitApps/Lektion-3/l2t_images/DiceKoeffizient.png')  # , caption='Vorverarbeitung')
     with col3:
         st.write("")
 
@@ -504,7 +501,7 @@ def metrics(session_state):
     with col1:
         st.write("")
     with col2:
-        st.image('KICampus-Learn2Trust/Lektion-3/l2t_images/AccSensSpez.png')  # , caption='Vorverarbeitung')
+        st.image('StreamlitApps/Lektion-3/l2t_images/AccSensSpez.png')  # , caption='Vorverarbeitung')
     with col3:
         st.write("")
 
@@ -587,7 +584,11 @@ def metrics(session_state):
 
 
 ##############
-session_state = SessionState.get(button_id="", slider_value=0)
+session_state = st.session_state
+if "button_id" not in session_state:
+    session_state["button_id"] = ""
+if "slider_value" not in session_state:
+    session_state["slider_value"] = 0
 
 st.set_page_config(
     page_title="KI Campus: Learn2Trust - Lektion 3", page_icon=":pencil2:", layout="wide"
@@ -615,6 +616,6 @@ st.sidebar.markdown("""---""")
 st.sidebar.write("Dieses Projekt wird bereitgestellt auf der ")
 link = '[KI-Campus Website](https://ki-campus.org/)'
 st.sidebar.markdown(link, unsafe_allow_html=True)
-st.sidebar.image("KICampus-Learn2Trust/Lektion-3/l2t_images/KICampusLogo.png", use_column_width=True)
+st.sidebar.image("StreamlitApps/Lektion-3/l2t_images/KICampusLogo.png", use_column_width=True)
 
 PAGES[page](session_state)
