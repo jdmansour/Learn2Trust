@@ -54,11 +54,11 @@ def dice_coeff(outputs, labels, max_label):
 def load_data_and_seg(test_data=False):
     # load dataset
     if test_data:
-        images = torch.load('KICampus-Learn2Trust/Lektion-5/l2t_data/jsrt_img_and_seg_test.pth')['img'].unsqueeze(1).float()
-        segmentations = torch.load('KICampus-Learn2Trust/Lektion-5/l2t_data/jsrt_img_and_seg_test.pth')['seg'].unsqueeze(1).long()
+        images = torch.load('StreamlitApps/Lektion-5/l2t_data/jsrt_img_and_seg_test.pth')['img'].unsqueeze(1).float()
+        segmentations = torch.load('StreamlitApps/Lektion-5/l2t_data/jsrt_img_and_seg_test.pth')['seg'].unsqueeze(1).long()
     else:
-        images = torch.load('KICampus-Learn2Trust/Lektion-5/l2t_data/jsrt_img_and_seg_test.pth')['img'].unsqueeze(1)
-        segmentations = torch.load('KICampus-Learn2Trust/Lektion-5/l2t_data/jsrt_img_and_seg_test.pth')['seg'].long()
+        images = torch.load('StreamlitApps/Lektion-5/l2t_data/jsrt_img_and_seg_test.pth')['img'].unsqueeze(1)
+        segmentations = torch.load('StreamlitApps/Lektion-5/l2t_data/jsrt_img_and_seg_test.pth')['seg'].long()
 
     # rescale image values
     images -= 1500
@@ -69,7 +69,7 @@ def load_data_and_seg(test_data=False):
 
 @st.cache(suppress_st_warning=True, allow_output_mutation=True)
 def load_model():
-    return torch.load('KICampus-Learn2Trust/Lektion-5/l2t_data/Learn2Trust_JSRT_LRASPP_finetuned_dict.pth')
+    return torch.load('StreamlitApps/Lektion-5/l2t_data/Learn2Trust_JSRT_LRASPP_finetuned_dict.pth')
 
 def load_fine_model(n_channels_in=1, n_classes=6):
     finetune_model = lraspp_mobilenet_v3_large()
@@ -93,31 +93,31 @@ def started():
     st.write("""
     ## 1. Einführung
     """)
-    
+
 
     col1, col2 = st.columns([5, 1])
-    
+
     with col1:
         st.write("""In dieser Lektion geht es darum, wie Künstliche Intelligenz in der medizinischen Bildanalyse dazu eingesetzt werden kann, um medizinische Bildobjekte zu segmentieren.
                 """)
         st.write(
             """Am Beispiel von Röntgenthoraxdaten wird demonstriert, wie ein einfaches Segmentierungsnetzwerk programmiert werden kann. Dieses Netzwerk soll entscheiden, wo sich die Lungenflügel, Schlüsselbeine und das Herz befinden. """)
-            
+
         st.write("""
     **Segmentierung** in der medizinischen Bildverarbeitung bedeutet, dass ein Bild in zusammenhängende Bereiche eingeteilt wird, z.B. zur Abgrenzung diagnostisch oder therapeutisch relevanter Bildbereiche. Hierfür wäre das Beispiel, wenn eine Röntgenthoraxaufnahme in verschiedene Bildbereiche unterteilt wird. Werden die ermittelten Bildbereiche gleichzeitig klassifiziert, so handelt es sich um **semantische Segmentierung**.
 Im Falle der Röntgenthoraxaufnahme in unserem Beispiel wäre das Lungenflügel, rechtes und linkes Schlüsselbein und Herz.
 
     """)
-            
-        
+
+
         st.write("""In den verschiedenen Unterkapiteln wird zunächst der Beispieldatensatz gezeigt und anschließend durch Netzwerkerstellung, -training und -evaluation geführt.
                 """)
-    
+
     with col2:
-        st.image('KICampus-Learn2Trust/Lektion-5/l2t_images/intro5.png')
-    
-    
-    
+        st.image('StreamlitApps/Lektion-5/l2t_images/intro5.png')
+
+
+
     st.markdown("---")
 
     col1, col2, col3 = st.columns([1,1,1.5])
@@ -125,9 +125,9 @@ Im Falle der Röntgenthoraxaufnahme in unserem Beispiel wäre das Lungenflügel,
         st.write("")
     with col2:
         st.write("""
-        ### Unterkapitel  
+        ### Unterkapitel
         Auswahl über Seitenleiste
-        
+
         1. Einführung
         2. Datensatz
         3. Netzwerkarchitektur
@@ -138,9 +138,9 @@ Im Falle der Röntgenthoraxaufnahme in unserem Beispiel wäre das Lungenflügel,
         """)
     with col3:
         st.write("")
-    
+
     st.markdown("---")
-    
+
 
 
 
@@ -151,60 +151,60 @@ def dataset():
     """)
 
     st.markdown("""
-        Der Datensatz für diese Lektion ist aus der JSRT Datenbank (Japanese Society of Radiological Technology): 
-        
-        *Shiraishi, Junji, et al. "Development of a digital image database for chest radiographs with and without a lung nodule: receiver operating 
+        Der Datensatz für diese Lektion ist aus der JSRT Datenbank (Japanese Society of Radiological Technology):
+
+        *Shiraishi, Junji, et al. "Development of a digital image database for chest radiographs with and without a lung nodule: receiver operating
                   characteristic analysis of radiologists' detection of pulmonary nodules." American Journal of Roentgenology 174.1 (2000): 71-74.*
-                  
+
                   """)
-                  
-    st.markdown("""           
-        Dieser Datensatz enthält insgesamt 247 konventionelle Röntgenaufnahmen des Thorax. 
+
+    st.markdown("""
+        Dieser Datensatz enthält insgesamt 247 konventionelle Röntgenaufnahmen des Thorax.
                 """)
 
     col0, col1, col2 = st.columns([10,30,15])
     with col1:
-        st.image('KICampus-Learn2Trust/Lektion-5/l2t_images/img_seg.png', width=400)
+        st.image('StreamlitApps/Lektion-5/l2t_images/img_seg.png', width=400)
 
     col0, col1, col2 = st.columns([15,2,30])
     with col1:
-        st.image('KICampus-Learn2Trust/Lektion-5/l2t_images/blau.png', width=25)
+        st.image('StreamlitApps/Lektion-5/l2t_images/blau.png', width=25)
     with col2:
         st.write('  rechter Lungenflügel')
 
     col0, col1, col2 = st.columns([15,2,30])
     with col1:
-        st.image('KICampus-Learn2Trust/Lektion-5/l2t_images/braun.png', width=25)
+        st.image('StreamlitApps/Lektion-5/l2t_images/braun.png', width=25)
     with col2:
         st.write('  linker Lungenflügel')
 
     col0, col1, col2 = st.columns([15,2,30])
     with col1:
-        st.image('KICampus-Learn2Trust/Lektion-5/l2t_images/rosa.png', width=25)
+        st.image('StreamlitApps/Lektion-5/l2t_images/rosa.png', width=25)
     with col2:
         st.write('  rechtes Schlüsseslbein')
 
     col0, col1, col2 = st.columns([15,2,30])
     with col1:
-        st.image('KICampus-Learn2Trust/Lektion-5/l2t_images/rot.png', width=25)
+        st.image('StreamlitApps/Lektion-5/l2t_images/rot.png', width=25)
     with col2:
         st.write('  linkes Schlüsselbein')
 
     col0, col1, col2 = st.columns([15,2,30])
     with col1:
-        st.image('KICampus-Learn2Trust/Lektion-5/l2t_images/gruen.png', width=25)
+        st.image('StreamlitApps/Lektion-5/l2t_images/gruen.png', width=25)
     with col2:
         st.write('  Herz')
 
 
 
     st.markdown("""---""")
-    
+
 
     st.write("""
     #### Visualisierung und Augmentierung des Datensatzes
     """)
-    st.markdown("""Wenn der Datensatz geladen wurde, werden Beispielbilder visualisiert und optional Segmentierungen angezeigt, die von Experten erstellt wurden und als Grundwahrheit 
+    st.markdown("""Wenn der Datensatz geladen wurde, werden Beispielbilder visualisiert und optional Segmentierungen angezeigt, die von Experten erstellt wurden und als Grundwahrheit
         genutzt werden.
         """)
 
@@ -251,26 +251,26 @@ def architecture():
     """)
 
     st.markdown("""
-    Die Netzwerkarchitektur ist das sogenannte *MobileNetV3*, vorgestellt in 
-    
+    Die Netzwerkarchitektur ist das sogenannte *MobileNetV3*, vorgestellt in
+
        *Howard, Andrew, et al. "Searching for mobilenetv3." Proceedings of the IEEE/CVF International Conference on Computer Vision. 2019.*
-     
+
     Link zu Preprint: https://arxiv.org/abs/1905.02244
     """)
-    
+
     st.write("""Dieses Faltungsnetzwerk zeichnet sich dadurch aus, dass es sehr effizient ist und gleichzeitig vergleichsweise wenige Parameter besitzt, was bedeutet, dass es schnell zu trainieren ist und wenig Speicherplatz beansprucht.
 Es besteht aus einigen Schichten, welche Merkmale für die Segmentierung extrahieren und am Ende eine Schicht, welche final die Klassenzuordnung der segmentierten Bildbereiche entscheidet.
     """)
-    
+
     col1, col2, col3 = st.columns([1, 10, 1])
-        
-    with col2:   
-        st.image('KICampus-Learn2Trust/Lektion-5/l2t_images/MobileNetPretrain.png')
-        
-        
+
+    with col2:
+        st.image('StreamlitApps/Lektion-5/l2t_images/MobileNetPretrain.png')
+
+
     st.write("""
         In dieser Lektion wird eine bereits vortrainierte Version des Deep-Learning-Modell verwendet. Dieses hat bereits gelernt, den rechten Lungenflügel, das rechte Schlüsselbein und das Herz zu segmentieren. """)
-        
+
     if st.checkbox("""Vorhersagen des vortrainierten Modells anzeigen""", False):
         images, segmentations_6 = load_data_and_seg()
         segmentations = segmentations_6.clone()
@@ -296,20 +296,20 @@ Es besteht aus einigen Schichten, welche Merkmale für die Segmentierung extrahi
     # st.write("""
     # ### Laden des Modells
     # """)
-    
-    st.write("""  
+
+    st.write("""
         Das vortrainierte Modell zu nutzen und anzupassen, um zusätzlich auch den linken Lungenflügel und das linke Schlüsselbein zu segmentieren, führt zu einem deutlich schnelleren Lernprozess als wenn das Modell komplett neu trainiert werden müsste.
         """)
-    
+
     if st.checkbox("""Modell modifizieren für zusätzliche Labelklassen""", False):
-        
-        
+
+
         st.write("""Es wird ein vortrainiertes Netzwerkmodell geladen und für die Segmentierung von zwei weiteren Klassen modifiziert.""")
-        
+
         col1, col2, col3 = st.columns([1, 10, 1])
-        
-        with col2:   
-            st.image('KICampus-Learn2Trust/Lektion-5/l2t_images/MobileNet.png')
+
+        with col2:
+            st.image('StreamlitApps/Lektion-5/l2t_images/MobileNet.png')
 
 
 
@@ -344,19 +344,19 @@ def finetune():
     if st.checkbox("""Finetuning""", False):
         finetune_model = load_fine_model()
         finetune_model.train()
-        
+
         # load test data
-        imgs_testset = torch.load('KICampus-Learn2Trust/Lektion-5/l2t_data/jsrt_img_and_seg_test.pth')['img'].unsqueeze(1).float()
-        segs_testset = torch.load('KICampus-Learn2Trust/Lektion-5/l2t_data/jsrt_img_and_seg_test.pth')['seg'].long()
+        imgs_testset = torch.load('StreamlitApps/Lektion-5/l2t_data/jsrt_img_and_seg_test.pth')['img'].unsqueeze(1).float()
+        segs_testset = torch.load('StreamlitApps/Lektion-5/l2t_data/jsrt_img_and_seg_test.pth')['seg'].long()
         imgs_testset = imgs_testset.clone()
-        
+
         # rescale image values
         imgs_testset = (imgs_testset - 1500) / 1000
-                
+
         st.write('**Definition verschiedener Trainingsparameter für das Finetuning:**')
         st.write('Zum Finetuning des Modells wird über 2500 Epochen mit dem Adam-Optimierer und einer Lernrate von 0,001 trainiert.')
         st.write('**Code:**')
-        
+
         st.code('''
         # number of epochs for fine-tuning
         n_epochs = 2500
@@ -364,20 +364,20 @@ def finetune():
         # initialize optimizer
         optimizer = torch.optim.Adam(model_finetuning.parameters(),lr=0.001)
         ''')
-        
+
         st.markdown("---")
-        
+
         st.write('**Trainingsschleife für das Finetuning:**')
         st.write('Für das Finetuning wird eine Batch-Größe von acht gewählt. Das bedeutet, dass in jeder Epoche acht zufällige Bilder aus dem Finetuning-Datensatz ausgewählt werden. Diese werden augmentiert und dem Modell präsentiert (*forward pass*). Mithilfe eines Kreuzentropie-Losses wird die Abweichung zwischen Vorhersage des Modells und der Grundwahrheit ermittelt. Anschließend werden die Gewichte des Modells im *backward pass* modifiziert.')
         st.write('**Code:**')
-        
+
         st.code('''
     model_finetuning.train()
-    
+
     for epoch in range(n_epochs):
         idx = torch.randperm(10)[:8]
         optimizer.zero_grad()
-        
+
         # load data for fine-tuning
         img = imgs_finetune[idx]
         seg = segs_finetune[idx]
@@ -391,23 +391,23 @@ def finetune():
         # compute loss
         loss = nn.CrossEntropyLoss()(predict['out'], seg_aug)
 
-        # backward pass 
+        # backward pass
         loss.backward()
         optimizer.step()
         ''')
-        
-        
+
+
         st.write("Die Loss-Kurve, die während des Finetunings durch den obigen Trainings-Loop entsteht, ist hier abgebildet:")
         col1, col2, col3 = st.columns([1, 3, 1])
-        
+
         with col2:
-            st.image('KICampus-Learn2Trust/Lektion-5/l2t_images/loss_curve.png')
-       
-    
+            st.image('StreamlitApps/Lektion-5/l2t_images/loss_curve.png')
+
+
         st.markdown("---")
-        
+
         if st.checkbox("""Anwendung auf Testbilder""", False):
-            
+
             st.write("** *Forward pass* für acht Testbilder**:")
             st.write("Nach dem Finetuning ist das Modell dazu in der Lage, auf ungesehenen Testbildern Vorhersagen zu treffen. Im nächsten Unterkapitel werden Inferenz und Evaluation näher erläutert. ")
             st.write('**Code:**')
@@ -448,7 +448,7 @@ def evaluation():
     with col1:
         st.write("")
     with col2:
-        st.image('KICampus-Learn2Trust/Lektion-5/l2t_images/DiceKoeffizient.png')  # , caption='Vorverarbeitung')
+        st.image('StreamlitApps/Lektion-5/l2t_images/DiceKoeffizient.png')  # , caption='Vorverarbeitung')
     with col3:
         st.write("")
 
@@ -463,7 +463,7 @@ def evaluation():
         imgs_orig = imgs.clone()
 
         model = load_fine_model()#
-        
+
         st.markdown('Je nach Augemtierungsstärke variieren die Evaluations-Ergebnisse für die Testbilder.')
         strength = st.slider('Stärke der Augmentierung einstellen',0.00, 0.10, 0.02)
 
@@ -484,35 +484,35 @@ def evaluation():
         with col0:
             st.write("")
         with col1:
-            st.image('KICampus-Learn2Trust/Lektion-5/l2t_images/blau.png', width=15)
+            st.image('StreamlitApps/Lektion-5/l2t_images/blau.png', width=15)
         with col2:
             st.markdown('*Label 1*: rechter Lungenflügel:  ```{:.2f}```'.format(np.asarray(d0.mean(0))[0]))
         col0, col1, col2 = st.columns([2, 1, 30])
         with col0:
             st.write("")
         with col1:
-            st.image('KICampus-Learn2Trust/Lektion-5/l2t_images/braun.png', width=15)
+            st.image('StreamlitApps/Lektion-5/l2t_images/braun.png', width=15)
         with col2:
             st.markdown('*Label 2*: linker Lungenflügel:  ```{:.2f}```'.format(np.asarray(d0.mean(0))[1]))
         col0, col1, col2 = st.columns([2, 1, 30])
         with col0:
             st.write("")
         with col1:
-            st.image('KICampus-Learn2Trust/Lektion-5/l2t_images/rosa.png', width=15)
+            st.image('StreamlitApps/Lektion-5/l2t_images/rosa.png', width=15)
         with col2:
             st.markdown('*Label 3*: rechtes Schlüsselbein:  ```{:.2f}```'.format(np.asarray(d0.mean(0))[2]))
         col0, col1, col2 = st.columns([2, 1, 30])
         with col0:
             st.write("")
         with col1:
-            st.image('KICampus-Learn2Trust/Lektion-5/l2t_images/rot.png', width=15)
+            st.image('StreamlitApps/Lektion-5/l2t_images/rot.png', width=15)
         with col2:
             st.markdown('*Label 4*: linkes Schlüsselbein:  ```{:.2f}```'.format(np.asarray(d0.mean(0))[3]))
         col0, col1, col2 = st.columns([2, 1, 30])
         with col0:
             st.write("")
         with col1:
-            st.image('KICampus-Learn2Trust/Lektion-5/l2t_images/gruen.png', width=15)
+            st.image('StreamlitApps/Lektion-5/l2t_images/gruen.png', width=15)
         with col2:
             st.markdown('*Label 5*: Herz:  ```{:.2f}```'.format(np.asarray(d0.mean(0))[4]))
 
@@ -537,7 +537,7 @@ def evaluation_visualisation():
     with torch.no_grad():
         features = model.backbone(imgs_aug)
         prediction = F.interpolate(model.classifier(features), scale_factor=8, mode='bilinear').argmax(1)
-    
+
     col1, col2 = st.columns([1,1])
     with col1:
         idx = st.slider("Bildindex", 0, len(imgs_aug)-1, 0)
@@ -585,17 +585,17 @@ def features():
 
     st.write("Das verwendete Deep-Learning-Modell nutzt für die Klassenzuordnung in der letzten Schicht sowohl Merkmale in niedriger Auflösung, aber mit vielen Merkmalskanälen (*features_high*) als auch Merkmale in hoher Auflösung, aber mit wenigen Merkmalskanälen (*features_low*).")
 
-    st.image('KICampus-Learn2Trust/Lektion-5/l2t_images/gelernteMerkmale.png')
+    st.image('StreamlitApps/Lektion-5/l2t_images/gelernteMerkmale.png')
 
-    
+
 
     if st.checkbox("Laden von trainiertem Finetune-Modell und Testbildern", False):
         # load trained weights
-        state_dict = torch.load('KICampus-Learn2Trust/Lektion-5/l2t_data/Learn2Trust_JSRT_LRASPP_finetuned_dict.pth')
+        state_dict = torch.load('StreamlitApps/Lektion-5/l2t_data/Learn2Trust_JSRT_LRASPP_finetuned_dict.pth')
         model.load_state_dict(state_dict)
 
         # load test image data
-        images = torch.load('KICampus-Learn2Trust/Lektion-5/l2t_data/jsrt_img_and_seg_test.pth')['img'].unsqueeze(1)
+        images = torch.load('StreamlitApps/Lektion-5/l2t_data/jsrt_img_and_seg_test.pth')['img'].unsqueeze(1)
 
         # rescale test images
         images -= 1500
@@ -654,5 +654,5 @@ st.sidebar.markdown("""---""")
 st.sidebar.write("Dieses Projekt wird bereitgestellt auf der ")
 link = '[KI-Campus Website](https://ki-campus.org/)'
 st.sidebar.markdown(link, unsafe_allow_html=True)
-st.sidebar.image("KICampus-Learn2Trust/Lektion-5/l2t_images/KICampusLogo.png", use_column_width=True)
+st.sidebar.image("StreamlitApps/Lektion-5/l2t_images/KICampusLogo.png", use_column_width=True)
 PAGES[page]()

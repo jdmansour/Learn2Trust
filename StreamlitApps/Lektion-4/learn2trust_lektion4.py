@@ -8,9 +8,6 @@ import matplotlib
 import matplotlib.pyplot as plt
 from matplotlib.gridspec import GridSpec
 
-import SessionState
-from streamlit.script_runner import RerunException
-from streamlit.script_request_queue import RerunData
 
 from classificationNet import classificationCNN
 from sklearn.metrics import confusion_matrix
@@ -41,25 +38,25 @@ def label2text(label):
 
 @st.cache(suppress_st_warning=True)
 def load_data():
-    return torch.load("KICampus-Learn2Trust/Lektion-4/l2t_data/pneumonia_detection_data_img.pth")
+    return torch.load("StreamlitApps/Lektion-4/l2t_data/pneumonia_detection_data_img.pth")
 
 @st.cache(suppress_st_warning=True, allow_output_mutation=True)
 def load_data_quiz():
-    return torch.load("KICampus-Learn2Trust/Lektion-4/l2t_data/data_highres.pth")
+    return torch.load("StreamlitApps/Lektion-4/l2t_data/data_highres.pth")
 
 
 @st.cache(suppress_st_warning=True)
 def load_data_label():
-    return torch.load("KICampus-Learn2Trust/Lektion-4/l2t_data/pneumonia_detection_data_label.pth")
+    return torch.load("StreamlitApps/Lektion-4/l2t_data/pneumonia_detection_data_label.pth")
 
 @st.cache(suppress_st_warning=True)
 def load_data_label_quiz():
-    return torch.load("KICampus-Learn2Trust/Lektion-4/l2t_data/data_label_highres.pth")
+    return torch.load("StreamlitApps/Lektion-4/l2t_data/data_label_highres.pth")
 
 
 @st.cache(suppress_st_warning=True)
 def load_idx_train():
-    return torch.load("KICampus-Learn2Trust/Lektion-4/l2t_data/idx_train.pth")
+    return torch.load("StreamlitApps/Lektion-4/l2t_data/idx_train.pth")
 
 @st.cache(suppress_st_warning=True, allow_output_mutation=True)
 def load_idx_quiz():
@@ -68,17 +65,17 @@ def load_idx_quiz():
 
 @st.cache(suppress_st_warning=True)
 def load_idx_val():
-    return torch.load("KICampus-Learn2Trust/Lektion-4/l2t_data/idx_val.pth")
+    return torch.load("StreamlitApps/Lektion-4/l2t_data/idx_val.pth")
 
 
 @st.cache(suppress_st_warning=True)
 def load_idx_test():
-    return torch.load("KICampus-Learn2Trust/Lektion-4/l2t_data/idx_test.pth")
+    return torch.load("StreamlitApps/Lektion-4/l2t_data/idx_test.pth")
 
 
 @st.cache(suppress_st_warning=True)
 def load_model():
-    return torch.load("KICampus-Learn2Trust/Lektion-4/l2t_data/net_pneumonia_classification.pth")
+    return torch.load("StreamlitApps/Lektion-4/l2t_data/net_pneumonia_classification.pth")
 
 
 @st.cache(
@@ -118,14 +115,14 @@ def intro(session_state):
             """In dieser Lektion geht es darum, wie Künstliche Intelligenz (KI) in der medizinischen Bildanalyse dazu eingesetzt werden kann, um Klassifikationsentscheidungen zu treffen."""
         )
         st.write(
-            """Am Beispiel von Röntgenthoraxdaten, die zur Diagnostik von Pneumonie aquiriert wurden, wird demonstriert, wie ein einfaches Klassifikationsnetzwerk programmiert werden kann. 
+            """Am Beispiel von Röntgenthoraxdaten, die zur Diagnostik von Pneumonie aquiriert wurden, wird demonstriert, wie ein einfaches Klassifikationsnetzwerk programmiert werden kann.
             Dieses Klassifikationsnetzwerk soll entscheiden, ob in einem präsentierten Eingabebild eine Pneumonie zu erkennen ist oder nicht. """
         )
         st.write(
             """In den verschiedenen Unterkapiteln wird zunächst der Beispieldatensatz gezeigt und anschließend durch Netzwerkerstellung, -training und -evaluation geführt."""
         )
     with col2:
-        st.image("KICampus-Learn2Trust/Lektion-4/l2t_imgs/intro.png")
+        st.image("StreamlitApps/Lektion-4/l2t_imgs/intro.png")
 
     st.markdown("---")
 
@@ -211,14 +208,14 @@ def dataset(session_state):
     st.write(
         """Wenn alle Daten geladen wurden, wird der Datensatz aufgeteilt in Trainingsbilder, Validierungsbilder und Testbilder."""
     )
-    
+
     col1, col2, col3 = st.columns([1,12,1])
     with col2:
-        st.image("KICampus-Learn2Trust/Lektion-4/l2t_imgs/datasplit.png")
-    
+        st.image("StreamlitApps/Lektion-4/l2t_imgs/datasplit.png")
+
     st.write(
-        """Die **Trainingsbilder** werden dem Klassifikationsnetzwerk während des Trainings wiederholt präsentiert und dienen dazu, dass das Modell dadurch lernt. 
-        Mithilfe der **Validierungsbilder** wird während des Trainingsvorganges validiert, wie gut das Modell mit Eingabedaten umgehen kann, die es nicht zum Lernen verwendet hat. 
+        """Die **Trainingsbilder** werden dem Klassifikationsnetzwerk während des Trainings wiederholt präsentiert und dienen dazu, dass das Modell dadurch lernt.
+        Mithilfe der **Validierungsbilder** wird während des Trainingsvorganges validiert, wie gut das Modell mit Eingabedaten umgehen kann, die es nicht zum Lernen verwendet hat.
         Anhand der **Testbilder** wird nach abgeschlossenem Training evaluiert, wie gut das Modell Daten klassifizieren kann, die während des Trainings weder als Trainings- noch als Validierungsdaten gedient haben."""
     )
 
@@ -253,7 +250,7 @@ def labelquiz(session_state):
     if len(st.session_state.quiz_img_idx) == 0:
         idx = torch.randperm(len(idx_train))[:max_n_question]
         st.session_state.quiz_img_idx = idx_train[idx]
-        
+
     # load img and normalize
     img = np.asarray(
         data_img[st.session_state.quiz_img_idx[st.session_state.n_question].item()]
@@ -279,7 +276,7 @@ def labelquiz(session_state):
             caption=f"Bild Nr. {st.session_state.quiz_img_idx[st.session_state.n_question].item()}",
         )
     with col2:
-        st.image("KICampus-Learn2Trust/Lektion-4/l2t_imgs/fragezeichen.png", width=120)
+        st.image("StreamlitApps/Lektion-4/l2t_imgs/fragezeichen.png", width=120)
         st.write(" ")
         st.write(" ")
 
@@ -410,7 +407,7 @@ def architecture(session_state):
     with col1:
         st.write("")
     with col2:
-        st.image("KICampus-Learn2Trust/Lektion-4/l2t_imgs/architektur.png", caption="Netzwerkarchitektur")
+        st.image("StreamlitApps/Lektion-4/l2t_imgs/architektur.png", caption="Netzwerkarchitektur")
     with col3:
         st.write("")
 
@@ -422,11 +419,11 @@ def architecture(session_state):
 
     col1, col2 = st.columns([1, 4])
     with col1:
-        st.image("KICampus-Learn2Trust/Lektion-4/l2t_imgs/doppelconvblock.png", caption="Faltungsblock")
+        st.image("StreamlitApps/Lektion-4/l2t_imgs/doppelconvblock.png", caption="Faltungsblock")
     with col2:
         st.write("**Faltungsblöcke**")
         st.write(
-            """Die insgesamt vier Faltungsblöcke bestehen jeweils aus zweimal der Abfolge einer zweidimensionalen Faltung, gefolgt von einer Batch-Normalisierung und einer Aktivierung. 
+            """Die insgesamt vier Faltungsblöcke bestehen jeweils aus zweimal der Abfolge einer zweidimensionalen Faltung, gefolgt von einer Batch-Normalisierung und einer Aktivierung.
             Auf jeden der Faltungsblöcke folgt ein Max-Pooling. In jedem Faltungsblock erhöht sich die Anzahl der Merkmalskanäle, während jede Pooling-Operation die räumliche Auflösung reduziert."""
         )
 
@@ -447,12 +444,12 @@ def architecture(session_state):
     with col1:
         st.write("**Modul aus voll-verbundenen Schichten**")
         st.write(
-            """Das Klassifikationsmodell wird durch ein Modul bestehend aus voll-verbundenen Schichten abgeschlossen. 
-            Dabei wechseln sich lineare Transformationen mit Aktivierungsfunktionen ab. 
+            """Das Klassifikationsmodell wird durch ein Modul bestehend aus voll-verbundenen Schichten abgeschlossen.
+            Dabei wechseln sich lineare Transformationen mit Aktivierungsfunktionen ab.
             Die Ausgabe der letzten Schicht besitzt zwei Merkmalskanäle - entsprechend der Anzahl der Klassen (*Pneumonie/keine Pneumonie*)."""
         )
     with col2:
-        st.image("KICampus-Learn2Trust/Lektion-4/l2t_imgs/fullyconnected.png", caption="Voll-verbundene Schichten")
+        st.image("StreamlitApps/Lektion-4/l2t_imgs/fullyconnected.png", caption="Voll-verbundene Schichten")
 
     st.write("*Code für das Modul aus voll-verbundenen Schichten:*")
     with st.echo():
@@ -543,12 +540,12 @@ def training(session_state):
     st.write("""## 5. Training""")
 
     st.write(
-        """Während des Trainingsprozesses werden dem im vorherigen Unterkapitel *Netzwerkarchitektur* beschriebenen Modell **Trainingsbilder** mit bekannten **Grundwahrheiten** übergeben. 
-        Das **Modell** trifft zu jedem Eingabebild eine **Vorhersage**, die dann über die **Lossfunktion** mit der Grundwahrheit verglichen wird. 
-        Basierend auf der Ausgabe der Lossfunktion werden durch die **Backpropagation** die **Parameter** des Modells angepasst. 
+        """Während des Trainingsprozesses werden dem im vorherigen Unterkapitel *Netzwerkarchitektur* beschriebenen Modell **Trainingsbilder** mit bekannten **Grundwahrheiten** übergeben.
+        Das **Modell** trifft zu jedem Eingabebild eine **Vorhersage**, die dann über die **Lossfunktion** mit der Grundwahrheit verglichen wird.
+        Basierend auf der Ausgabe der Lossfunktion werden durch die **Backpropagation** die **Parameter** des Modells angepasst.
         Dieser Prozess wird so lange wiederholt, bis die Parameter des Modells so weit angepasst sind, dass sie bei der Backpropagation nicht mehr geändert werden müssen."""
     )
-    st.image("KICampus-Learn2Trust/Lektion-4/l2t_imgs/trainloop.png", caption="Trainings-Loop")
+    st.image("StreamlitApps/Lektion-4/l2t_imgs/trainloop.png", caption="Trainings-Loop")
 
     st.markdown("---")
 
@@ -610,7 +607,7 @@ for epoch in range(n_epochs):
 
             # forward run
             predicted_label = model(source_image)
-            
+
             #compute loss
             loss = loss_function(predicted_label, target_label)
 
@@ -679,13 +676,13 @@ def evaluation(session_state):
     st.write("""## 6. Evaluation""")
 
     accuracy_latex = r"""
-$$ 
-ACCURACY = \frac{\mathrm{TP}+\mathrm{TN}}{\mathrm{TP}+\mathrm{TN}+\mathrm{FP}+\mathrm{FN}} 
-$$ 
+$$
+ACCURACY = \frac{\mathrm{TP}+\mathrm{TN}}{\mathrm{TP}+\mathrm{TN}+\mathrm{FP}+\mathrm{FN}}
+$$
 """
 
     st.markdown(
-        """Im vorherigen Unterkapitel *Training* wurde das Modell `bestNet` abgespeichert, das auf den Validierungsdaten die besten Ergebnisse erzielt hat. 
+        """Im vorherigen Unterkapitel *Training* wurde das Modell `bestNet` abgespeichert, das auf den Validierungsdaten die besten Ergebnisse erzielt hat.
         Dieses Modell soll jetzt während der sogenannten **Inferenz** auf die Testdaten angewendet werden, um zu evaluieren, wie gut das Modell auf Bildern klassifizieren kann, die ihm während der Trainingsphase noch nicht präsentiert wurden."""
     )
     st.write(
@@ -760,7 +757,7 @@ def visualisation(session_state):
     st.write("""## 7. Ergebnisvisualisierungen""")
 
     data_img = load_data()
-    result_list = torch.load("KICampus-Learn2Trust/Lektion-4/result_list.pth")
+    result_list = torch.load("StreamlitApps/Lektion-4/result_list.pth")
 
     st.write(
         """Hier wird visualisiert, welche Röntgenbilder richtig und welche Röntgenbilder aus dem Testdatensatz falsch klassifiziert wurden. """
@@ -803,7 +800,11 @@ def visualisation(session_state):
 #################################################################
 
 
-session_state = SessionState.get(button_id="", slider_value=0)
+session_state = st.session_state
+if "button_id" not in session_state:
+    session_state["button_id"] = ""
+if "slider_value" not in session_state:
+    session_state["slider_value"] = 0
 st.set_page_config(page_title="KI Campus: Learn2Trust - Lektion 3", page_icon=":pencil2:")
 st.title("KI Campus: Learn2Trust ")
 st.write("## **Lektion 4: Klassifizierung**")
@@ -825,6 +826,6 @@ st.sidebar.markdown("""---""")
 st.sidebar.write('Dieses Projekt wird bereitgestellt auf der')
 link = "[KI-Campus Website](https://ki-campus.org/)"
 st.sidebar.markdown(link, unsafe_allow_html=True)
-st.sidebar.image("KICampus-Learn2Trust/Lektion-4/l2t_imgs/KICampusLogo.png", use_column_width=True)
+st.sidebar.image("StreamlitApps/Lektion-4/l2t_imgs/KICampusLogo.png", use_column_width=True)
 
 PAGES[page](session_state)
