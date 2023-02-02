@@ -69,7 +69,7 @@ def load_data_and_seg(test_data=False):
 
 @st.cache(suppress_st_warning=True, allow_output_mutation=True)
 def load_model():
-    return torch.load('StreamlitApps/Lektion-5/l2t_data/Learn2Trust_JSRT_LRASPP_finetuned_dict.pth')
+    return torch.load('StreamlitApps/Lektion-5/l2t_data/Learn2Trust_JSRT_finetuned_dict.pth')
 
 def load_fine_model(n_channels_in=1, n_classes=6):
     finetune_model = lraspp_mobilenet_v3_large()
@@ -591,7 +591,7 @@ def features():
 
     if st.checkbox("Laden von trainiertem Finetune-Modell und Testbildern", False):
         # load trained weights
-        state_dict = torch.load('StreamlitApps/Lektion-5/l2t_data/Learn2Trust_JSRT_LRASPP_finetuned_dict.pth')
+        state_dict = torch.load('StreamlitApps/Lektion-5/l2t_data/Learn2Trust_JSRT_finetuned_dict.pth')
         model.load_state_dict(state_dict)
 
         # load test image data
