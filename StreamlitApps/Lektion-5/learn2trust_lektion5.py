@@ -632,7 +632,7 @@ def features():
 
 
 st.set_page_config(
-    page_title="KI Campus: Learn2Trust - Lektion 5", page_icon=":pencil2:"
+    page_title="TEST KI Campus: Learn2Trust - Lektion 5", page_icon=":pencil2:"
 )
 
 st.title("KI Campus: Learn2Trust ")
