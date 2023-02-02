@@ -591,7 +591,7 @@ if "slider_value" not in session_state:
     session_state["slider_value"] = 0
 
 st.set_page_config(
-    page_title="KI Campus: Learn2Trust - Lektion 3", page_icon=":pencil2:", layout="wide"
+    page_title="KI Campus: Learn2Trust - Lektion 3", page_icon=":pencil2:"
 )
 
 st.title("KI Campus: Learn2Trust ")
