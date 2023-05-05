@@ -39,7 +39,8 @@ def label2text(label):
 @st.cache(suppress_st_warning=True)
 def load_data():
     #!wget https://cloud.imi.uni-luebeck.de/s/LwRQAJew8kGEPr6
-    return torch.load("StreamlitApps/Lektion-4/l2t_data/pneumonia_detection_data_img.pth")   #torch.load("pneumonia_detection_data_img.pth")
+    return torch.from_numpy(np.load('StreamlitApps/Lektion-4/l2t_data/pneumonia_detection_data_img.npz')['arr_0']).float()
+    #return torch.load("StreamlitApps/Lektion-4/l2t_data/pneumonia_detection_data_img.pth")   #torch.load("pneumonia_detection_data_img.pth")
 
 @st.cache(suppress_st_warning=True, allow_output_mutation=True)
 def load_data_quiz():
