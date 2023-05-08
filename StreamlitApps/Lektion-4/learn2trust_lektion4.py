@@ -9,8 +9,8 @@ import matplotlib
 import matplotlib.pyplot as plt
 from matplotlib.gridspec import GridSpec
 
-from streamlit.script_runner import RerunException
-from streamlit.script_request_queue import RerunData
+#from streamlit.script_runner import RerunException
+#from streamlit.script_request_queue import RerunData
 
 from classificationNet import classificationCNN
 from sklearn.metrics import confusion_matrix
@@ -293,7 +293,7 @@ def labelquiz(session_state):
             # start button which enters input phase
             if st.button("Starte eine neue Runde."):
                 st.session_state.phase += 1
-                raise RerunException(RerunData(widget_states=None))
+                #raise RerunException(RerunData(widget_states=None))
 
         ###########
         # Eingabe #
@@ -322,7 +322,7 @@ def labelquiz(session_state):
                 )
                 st.session_state.ans.append(result)
                 st.session_state.phase += 1
-                raise RerunException(RerunData(widget_states=None))
+                #raise RerunException(RerunData(widget_states=None))
 
         ###########
         # Ausgabe #
@@ -348,12 +348,12 @@ def labelquiz(session_state):
                 if st.button("Nächstes Bild"):
                     st.session_state.phase -= 1
                     st.session_state.n_question += 1
-                    raise RerunException(RerunData(widget_states=None))
+                    #raise RerunException(RerunData(widget_states=None))
             else:
                 # enter result display phase
                 if st.button("Ergebnis"):
                     st.session_state.phase += 1
-                    raise RerunException(RerunData(widget_states=None))
+                    #raise RerunException(RerunData(widget_states=None))
 
         ######################
         # Ergebnisauswertung #
@@ -386,7 +386,7 @@ def labelquiz(session_state):
                 st.session_state.ans = []
                 st.session_state.phase = 0
                 st.session_state.quiz_img_idx = []
-                raise RerunException(RerunData(widget_states=None))
+                #raise RerunException(RerunData(widget_states=None))
 
 
 ####################################################################
