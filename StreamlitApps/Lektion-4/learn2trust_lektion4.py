@@ -293,7 +293,8 @@ def labelquiz(session_state):
             # start button which enters input phase
             if st.button("Starte eine neue Runde."):
                 st.session_state.phase += 1
-                raise RerunException(RerunData(widget_states=None))
+                st.experimental_rerun()
+                #raise RerunException(RerunData(widget_states=None))
 
         ###########
         # Eingabe #
@@ -322,7 +323,8 @@ def labelquiz(session_state):
                 )
                 st.session_state.ans.append(result)
                 st.session_state.phase += 1
-                raise RerunException(RerunData(widget_states=None))
+                st.experimental_rerun()
+#                raise RerunException(RerunData(widget_states=None))
 
         ###########
         # Ausgabe #
@@ -353,7 +355,8 @@ def labelquiz(session_state):
                 # enter result display phase
                 if st.button("Ergebnis"):
                     st.session_state.phase += 1
-                    raise RerunException(RerunData(widget_states=None))
+                    st.experimental_rerun()
+#                    raise RerunException(RerunData(widget_states=None))
 
         ######################
         # Ergebnisauswertung #
