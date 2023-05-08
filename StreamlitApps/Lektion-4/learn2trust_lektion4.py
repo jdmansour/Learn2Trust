@@ -39,56 +39,52 @@ def label2text(label):
     return label_text
 
 
-@st.cache(suppress_st_warning=True)
+@st.cache_data()
 def load_data():
     #!wget https://cloud.imi.uni-luebeck.de/s/LwRQAJew8kGEPr6
     return torch.from_numpy(np.load('StreamlitApps/Lektion-4/l2t_data/pneumonia_detection_data_img.npz')['arr_0']).float()
     #return torch.load("StreamlitApps/Lektion-4/l2t_data/pneumonia_detection_data_img.pth")   #torch.load("pneumonia_detection_data_img.pth")
 
-@st.cache(suppress_st_warning=True, allow_output_mutation=True)
+@st.cache_data()
 def load_data_quiz():
     #!wget https://cloud.imi.uni-luebeck.de/s/KzRFZBw2D6RFXM8
     return torch.load("StreamlitApps/Lektion-4/l2t_data/data_highres.pth")   #torch.load("data_highres.pth")
 
 
-@st.cache(suppress_st_warning=True)
+@st.cache_data()
 def load_data_label():
     return torch.load("StreamlitApps/Lektion-4/l2t_data/pneumonia_detection_data_label.pth")
 
-@st.cache(suppress_st_warning=True)
+@st.cache_data()
 def load_data_label_quiz():
     return torch.load("StreamlitApps/Lektion-4/l2t_data/data_label_highres.pth")
 
 
-@st.cache(suppress_st_warning=True)
+@st.cache_data()
 def load_idx_train():
     return torch.load("StreamlitApps/Lektion-4/l2t_data/idx_train.pth")
 
-@st.cache(suppress_st_warning=True, allow_output_mutation=True)
+@st.cache_data()
 def load_idx_quiz():
     return np.random.randint(20,size=(20))
 
 
-@st.cache(suppress_st_warning=True)
+@st.cache_data()
 def load_idx_val():
     return torch.load("StreamlitApps/Lektion-4/l2t_data/idx_val.pth")
 
 
-@st.cache(suppress_st_warning=True)
+@st.cache_data()
 def load_idx_test():
     return torch.load("StreamlitApps/Lektion-4/l2t_data/idx_test.pth")
 
 
-@st.cache(suppress_st_warning=True)
+@st.cache_data()
 def load_model():
     return torch.load("StreamlitApps/Lektion-4/l2t_data/net_pneumonia_classification.pth")
 
 
-@st.cache(
-    suppress_st_warning=True,
-    hash_funcs={matplotlib.figure.Figure: hash},
-    # allow_output_mutation=True,
-)
+#@st.cache_data(_excluded_param={matplotlib.figure.Figure: hash})
 def create_figure_example_data(data_img, data_label, idx_train, show_labels):
     fig, axes = plt.subplots(2, 4, sharex=True, sharey=True)
 

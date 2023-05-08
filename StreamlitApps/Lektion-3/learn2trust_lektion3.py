@@ -15,7 +15,7 @@ import streamlit as st
 
 
 # Caching
-@st.cache(suppress_st_warning=True)
+@st.cache_data()
 def load_data():
     Thorax_img = Image.open('StreamlitApps/Lektion-3/l2t_data/person1_bacteria_2.jpeg')
     Thorax_img = T.Resize(size=512)(Thorax_img)
