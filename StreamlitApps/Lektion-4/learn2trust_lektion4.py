@@ -760,7 +760,7 @@ def visualisation(session_state):
     st.write("""## 7. Ergebnisvisualisierungen""")
 
     data_img = load_data()
-    result_list = torch.load("StreamlitApps/Lektion-4/result_list.pth")
+    result_list = torch.load("StreamlitApps/Lektion-4/result_list.pth")[:5000]
 
     st.write(
         """Hier wird visualisiert, welche Röntgenbilder richtig und welche Röntgenbilder aus dem Testdatensatz falsch klassifiziert wurden. """
