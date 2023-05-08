@@ -1,6 +1,5 @@
 # Imports
 import streamlit as st
-from st.script_runner import RerunException
 
 import torch
 import torch.nn as nn
@@ -10,6 +9,8 @@ import matplotlib
 import matplotlib.pyplot as plt
 from matplotlib.gridspec import GridSpec
 
+from streamlit.script_runner import RerunException
+from streamlit.script_request_queue import RerunData
 
 from classificationNet import classificationCNN
 from sklearn.metrics import confusion_matrix
