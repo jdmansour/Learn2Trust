@@ -1,6 +1,6 @@
 # Imports
 import streamlit as st
-from streamlit.script_runner import RerunException
+from st.script_runner import RerunException
 
 import torch
 import torch.nn as nn
