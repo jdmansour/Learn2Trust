@@ -50,7 +50,7 @@ def dice_coeff(outputs, labels, max_label):
     return dice
 
 
-@st.cache(suppress_st_warning=True)
+@st.cache(suppress_st_warning=True,allow_output_mutation=True)
 def load_data_and_seg(test_data=False):
     # load dataset
     if test_data:
