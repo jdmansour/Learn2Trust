@@ -67,7 +67,7 @@ def load_data_and_seg(test_data=False):
 
 
 
-@st.cache(suppress_st_warning=True,allow_output_mutation=True)
+@st.cache(suppress_st_warning=True,allow_output_mutation=False)
 def load_model():
     return torch.load('StreamlitApps/Lektion-5/l2t_data/Learn2Trust_JSRT_finetuned_dict.pth')
 
