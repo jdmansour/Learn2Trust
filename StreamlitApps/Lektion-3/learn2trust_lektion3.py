@@ -13,9 +13,10 @@ from sklearn.metrics import confusion_matrix
 
 import streamlit as st
 
+st.write(st.__version__)
 
 # Caching
-@st.cache_data()
+@st.cache(suppress_st_warning=True)
 def load_data():
     Thorax_img = Image.open('StreamlitApps/Lektion-3/l2t_data/person1_bacteria_2.jpeg')
     Thorax_img = T.Resize(size=512)(Thorax_img)

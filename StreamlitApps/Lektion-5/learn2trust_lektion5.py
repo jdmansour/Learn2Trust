@@ -50,7 +50,7 @@ def dice_coeff(outputs, labels, max_label):
     return dice
 
 
-@st.cache_data()
+@st.cache(suppress_st_warning=True)
 def load_data_and_seg(test_data=False):
     # load dataset
     if test_data:
@@ -67,7 +67,7 @@ def load_data_and_seg(test_data=False):
 
 
 
-@st.cache_data()
+@st.cache(suppress_st_warning=True)
 def load_model():
     return torch.load('StreamlitApps/Lektion-5/l2t_data/Learn2Trust_JSRT_finetuned_dict.pth')
 
