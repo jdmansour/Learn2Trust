@@ -110,7 +110,6 @@ def create_figure_example_data(data_img, data_label, idx_train, show_labels):
 
 def intro(session_state):
     st.write("""## 1. Einführung""")
-    st.write(st.__version__)
 
     col1, col2 = st.columns([2, 1])
     with col1:
