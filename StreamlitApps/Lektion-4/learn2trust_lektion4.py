@@ -195,9 +195,7 @@ def dataset(session_state):
             len(data_img),
             " Bildern. Davon sind ",
             len(data_label[data_label == 1]),
-            "Röntgenbilder Patienten zuzuordnen, bei denen eine Pneumonie diagnostiziert wurde und ",
-            len(data_label[data_label == 0]),
-            " Röntgenbilder Patienten zuzuordnen, bei denen keine Pneumonie diagnostiziert wurde. ",
+            "Röntgenbilder Patienten zuzuordnen, bei denen eine Pneumonie diagnostiziert wurde. ",
         )
         st.write(
             "Der gesamte Bilddatensatz wird aufgeteilt in ",
