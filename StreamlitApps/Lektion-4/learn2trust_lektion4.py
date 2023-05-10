@@ -379,6 +379,8 @@ def labelquiz(session_state):
                 st.session_state.ans = []
                 st.session_state.phase = 0
                 st.session_state.quiz_img_idx = []
+                ##
+                st.experimental_rerun()
                 #raise RerunException(RerunData(widget_states=None))
 
 
