@@ -9,9 +9,6 @@ import matplotlib
 import matplotlib.pyplot as plt
 from matplotlib.gridspec import GridSpec
 
-#from streamlit.script_runner import RerunException
-#from streamlit.script_request_queue import RerunData
-
 from classificationNet import classificationCNN
 from sklearn.metrics import confusion_matrix
 
@@ -41,14 +38,11 @@ def label2text(label):
 
 @st.cache(suppress_st_warning=True)
 def load_data():
-    #!wget https://cloud.imi.uni-luebeck.de/s/LwRQAJew8kGEPr6
     return torch.from_numpy(np.load('StreamlitApps/Lektion-4/l2t_data/pneumonia_detection_data_img.npz')['arr_0']).float()
-    #return torch.load("StreamlitApps/Lektion-4/l2t_data/pneumonia_detection_data_img.pth")   #torch.load("pneumonia_detection_data_img.pth")
 
 @st.cache(suppress_st_warning=True, allow_output_mutation=True)
 def load_data_quiz():
-    #!wget https://cloud.imi.uni-luebeck.de/s/KzRFZBw2D6RFXM8
-    return torch.load("StreamlitApps/Lektion-4/l2t_data/data_highres.pth")   #torch.load("data_highres.pth")
+    return torch.load("StreamlitApps/Lektion-4/l2t_data/data_highres.pth")
 
 
 @st.cache(suppress_st_warning=True)
@@ -191,11 +185,7 @@ def dataset(session_state):
             st.pyplot(fig)
 
         st.write(
-            "Der Datensatz besteht aus insgesamt ",
-            len(data_img),
-            " Bildern. Davon sind ",
-            len(data_label[data_label == 1]),
-            "Röntgenbilder Patienten zuzuordnen, bei denen eine Pneumonie diagnostiziert wurde. ",
+            "Der Datensatz besteht aus insgesamt 5000 Bildern. Davon sind 3600 Röntgenbilder Patienten zuzuordnen, bei denen eine Pneumonie diagnostiziert wurde und 1400 Röntgenbilder Patienten zuzuordnen, bei denen keine Pneumonie festgestellt wurde. ",
         )
         st.write(
             "Der gesamte Bilddatensatz wird aufgeteilt in ",
