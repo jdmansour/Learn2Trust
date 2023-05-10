@@ -338,13 +338,15 @@ def labelquiz(session_state):
                 if st.button("Nächstes Bild"):
                     st.session_state.phase -= 1
                     st.session_state.n_question += 1
+                    ##
+                    st.experimental_rerun()
                     #raise RerunException(RerunData(widget_states=None))
             else:
                 # enter result display phase
                 if st.button("Ergebnis"):
                     st.session_state.phase += 1
                     st.experimental_rerun()
-                    raise RerunException(RerunData(widget_states=None))
+                    ##raise RerunException(RerunData(widget_states=None))
 
         ######################
         # Ergebnisauswertung #
